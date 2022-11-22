@@ -35,7 +35,7 @@ initialAngle : Float -- hoop height
 initialAngle hh y0 v0 d =
         let a = (1/2 * g * d^2)/(v0^2)
             dh = hh-y0
-        in atan ( (d + sqrt (d^2 - 4 * a * (a - dh)))/(-2 * a))
+        in atan ( (d + sqrt (d^2 - 4 * a * (a - dh)))/(-2 * a)) * 180/pi
 
 -- ui
 
@@ -46,32 +46,50 @@ type alias Model = {hoopHeight : String, startingHeight : String, problem : SubM
 type Msg = UpdateHoopHeight String | UpdateStartHeight String | UpdateVel String | UpdateAngle String | UpdateDistance String | UpdateProblem String
 
 setVelocity : String -> Model -> Model
-setVelocity v m@{problem} = case problem of
+setVelocity v m = case m.problem of
     GetDistance a -> {m | problem = GetDistance {a | vm = v}}
     GetAngle a -> {m | problem = GetAngle {a | vm = v}}
-    GetVelocityMagnitude v -> m
+    GetVelocityMagnitude a -> m
 
 
-setVelocity : String -> Model -> Model
-setVelocity v m@{problem} = case problem of
-    GetDistance a -> {m | problem = GetDistance {a | vm = v}}
-    GetAngle a -> {m | problem = GetAngle {a | vm = v}}
-    GetVelocityMagnitude v -> m
+setAngle : String -> Model -> Model
+setAngle v m = case m.problem of
+    GetDistance a -> {m | problem = GetDistance {a | theta = v}}
+    GetAngle a -> m
+    GetVelocityMagnitude a -> {m | problem = GetVelocityMagnitude {a | theta = v}}
 
-setVelocity : String -> Model -> Model
-setVelocity v m@{problem} = case problem of
-    GetDistance a -> {m | problem = GetDistance {a | vm = v}}
-    GetAngle a -> {m | problem = GetAngle {a | vm = v}}
-    GetVelocityMagnitude v -> m
+setDistance : String -> Model -> Model
+setDistance v m = case m.problem of
+    GetDistance a -> m
+    GetAngle a -> {m | problem = GetAngle {a | distance = v}}
+    GetVelocityMagnitude a -> {m | problem = GetVelocityMagnitude {a | distance = v}}
+
+changeProblem : String -> Model -> Model
+changeProblem s m = {m | problem = case s of
+    "angle" -> case m.problem of
+        GetAngle {distance,vm} -> m.problem
+        GetVelocityMagnitude {distance,theta} -> GetAngle {distance = distance, vm = String.fromFloat 5}
+        GetDistance {vm,theta} -> GetAngle {distance = String.fromFloat 10, vm = vm}
+
+    "distance" -> case m.problem of
+        GetAngle {distance,vm} -> GetDistance {vm = vm, theta = String.fromFloat 30}
+        GetVelocityMagnitude {distance,theta} -> GetDistance {vm = String.fromFloat 5, theta = theta}
+        GetDistance {vm,theta} -> m.problem
+    "speed" -> case m.problem of
+        GetAngle {distance,vm} -> GetVelocityMagnitude {distance = distance, theta = String.fromFloat 30}
+        GetVelocityMagnitude {distance,theta} -> m.problem
+        GetDistance {vm,theta} -> GetVelocityMagnitude {distance = String.fromFloat 10, theta = theta}
+    _ -> m.problem}
+
 
 update : Msg -> Model -> Model
 update msg mod = case msg of
-    UpdateHoopHeight h -> {mod | hoopHeight h}
-    UpdateStartHeight h -> {mod | startingHeight h}
-    UpdateVel v -> setVelocity mod v
-    UpdateAngle a -> setAngle mod a
-    UpdateDistance d -> setDistance d
-    UpdateProblem p -> changeProblem mod p
+    UpdateHoopHeight h -> {mod | hoopHeight = h}
+    UpdateStartHeight h -> {mod | startingHeight = h}
+    UpdateVel v -> setVelocity v mod
+    UpdateAngle a -> setAngle a mod
+    UpdateDistance d -> setDistance d mod
+    UpdateProblem p -> changeProblem p mod
 
 
 mbind : Maybe a -> (a -> Maybe b) -> Maybe b
@@ -137,17 +155,17 @@ view  {hoopHeight, startingHeight, problem}=
         initvelInput = input [ placeholder "initial velocity",  onInput UpdateVel] []
         angInput = input [ placeholder "angle",  onInput UpdateAngle] []
         distanceInput = input [ placeholder "distance", onInput UpdateDistance] []
-        problemInput = select [ onInput UpdateProblem] [problemOpt "angle", problemOpt "distance", problemOpt "speed"]
+        problemInput = select [ onInput UpdateProblem] [problemOpt "distance", problemOpt "angle", problemOpt "speed"]
     in
     div [] ([problemInput] ++ (case problem of
-        GetDistance {vm,theta} -> let r = M.map getRange hh sh v a
+        GetDistance {vm,theta} -> let r = M.map4 getRange hh sh (M.map2 (\an vmag -> cos (an * pi/180) * vmag) a v) (M.map2 (\an vmag -> sin (an * pi/180) * vmag) a v)
                                       hh = String.toFloat hoopHeight
                                       sh = String.toFloat startingHeight
                                       v = String.toFloat vm
                                       a = String.toFloat theta
                                   in [displayResult r, hr [] [], hoopInput, startHeightInput, initvelInput, angInput,
                                       drawSvgModel (M.map5 SvgParams hh sh v a r)]
-        GetAngle {distance,vm} -> let a = M.map initialAngle hh sh r v
+        GetAngle {distance,vm} -> let a = M.map4 initialAngle hh sh v r
                                       hh = String.toFloat hoopHeight
                                       sh = String.toFloat startingHeight
                                       v = String.toFloat vm
@@ -155,7 +173,7 @@ view  {hoopHeight, startingHeight, problem}=
                                   in [displayResult a, hr [] [], hoopInput, startHeightInput, initvelInput, distanceInput,
                                       drawSvgModel (M.map5 SvgParams hh sh v a r)]
         GetVelocityMagnitude {distance,theta} ->
-                let v = M.map initialVelocity hh sh r a
+                let v = M.map4 initialVelocity hh sh r (M.map (\an -> an * pi/180) a)
                     hh = String.toFloat hoopHeight
                     sh = String.toFloat startingHeight
                     a = String.toFloat theta
@@ -177,7 +195,7 @@ view  {hoopHeight, startingHeight, problem}=
     -- ]
 
 main = Browser.sandbox {
-        init = {hoopHeight = "1.915", startingHeight = "1.61", vm = "3.3931", theta = "30"},
+        init = {hoopHeight = "1.915", startingHeight = "1.61", problem = GetDistance {vm = "6", theta = "59"}},
         view = view,
         update = update
     }

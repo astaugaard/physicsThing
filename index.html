@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Main</title>
+  <title>Main2</title>
   <style>body { padding: 0; margin: 0; }</style>
 </head>
 
@@ -4384,6 +4384,9 @@ function _Browser_load(url)
 		}
 	}));
 }
+var $author$project$Main2$GetDistance = function (a) {
+	return {$: 'GetDistance', a: a};
+};
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5194,7 +5197,186 @@ var $elm$browser$Browser$sandbox = function (impl) {
 			view: impl.view
 		});
 };
-var $author$project$Main$update = F2(
+var $author$project$Main2$GetAngle = function (a) {
+	return {$: 'GetAngle', a: a};
+};
+var $author$project$Main2$GetVelocityMagnitude = function (a) {
+	return {$: 'GetVelocityMagnitude', a: a};
+};
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $author$project$Main2$changeProblem = F2(
+	function (s, m) {
+		return _Utils_update(
+			m,
+			{
+				problem: function () {
+					switch (s) {
+						case 'angle':
+							var _v1 = m.problem;
+							switch (_v1.$) {
+								case 'GetAngle':
+									var distance = _v1.a.distance;
+									var vm = _v1.a.vm;
+									return m.problem;
+								case 'GetVelocityMagnitude':
+									var distance = _v1.a.distance;
+									var theta = _v1.a.theta;
+									return $author$project$Main2$GetAngle(
+										{
+											distance: distance,
+											vm: $elm$core$String$fromFloat(5)
+										});
+								default:
+									var vm = _v1.a.vm;
+									var theta = _v1.a.theta;
+									return $author$project$Main2$GetAngle(
+										{
+											distance: $elm$core$String$fromFloat(10),
+											vm: vm
+										});
+							}
+						case 'distance':
+							var _v2 = m.problem;
+							switch (_v2.$) {
+								case 'GetAngle':
+									var distance = _v2.a.distance;
+									var vm = _v2.a.vm;
+									return $author$project$Main2$GetDistance(
+										{
+											theta: $elm$core$String$fromFloat(30),
+											vm: vm
+										});
+								case 'GetVelocityMagnitude':
+									var distance = _v2.a.distance;
+									var theta = _v2.a.theta;
+									return $author$project$Main2$GetDistance(
+										{
+											theta: theta,
+											vm: $elm$core$String$fromFloat(5)
+										});
+								default:
+									var vm = _v2.a.vm;
+									var theta = _v2.a.theta;
+									return m.problem;
+							}
+						case 'speed':
+							var _v3 = m.problem;
+							switch (_v3.$) {
+								case 'GetAngle':
+									var distance = _v3.a.distance;
+									var vm = _v3.a.vm;
+									return $author$project$Main2$GetVelocityMagnitude(
+										{
+											distance: distance,
+											theta: $elm$core$String$fromFloat(30)
+										});
+								case 'GetVelocityMagnitude':
+									var distance = _v3.a.distance;
+									var theta = _v3.a.theta;
+									return m.problem;
+								default:
+									var vm = _v3.a.vm;
+									var theta = _v3.a.theta;
+									return $author$project$Main2$GetVelocityMagnitude(
+										{
+											distance: $elm$core$String$fromFloat(10),
+											theta: theta
+										});
+							}
+						default:
+							return m.problem;
+					}
+				}()
+			});
+	});
+var $author$project$Main2$setAngle = F2(
+	function (v, m) {
+		var _v0 = m.problem;
+		switch (_v0.$) {
+			case 'GetDistance':
+				var a = _v0.a;
+				return _Utils_update(
+					m,
+					{
+						problem: $author$project$Main2$GetDistance(
+							_Utils_update(
+								a,
+								{theta: v}))
+					});
+			case 'GetAngle':
+				var a = _v0.a;
+				return m;
+			default:
+				var a = _v0.a;
+				return _Utils_update(
+					m,
+					{
+						problem: $author$project$Main2$GetVelocityMagnitude(
+							_Utils_update(
+								a,
+								{theta: v}))
+					});
+		}
+	});
+var $author$project$Main2$setDistance = F2(
+	function (v, m) {
+		var _v0 = m.problem;
+		switch (_v0.$) {
+			case 'GetDistance':
+				var a = _v0.a;
+				return m;
+			case 'GetAngle':
+				var a = _v0.a;
+				return _Utils_update(
+					m,
+					{
+						problem: $author$project$Main2$GetAngle(
+							_Utils_update(
+								a,
+								{distance: v}))
+					});
+			default:
+				var a = _v0.a;
+				return _Utils_update(
+					m,
+					{
+						problem: $author$project$Main2$GetVelocityMagnitude(
+							_Utils_update(
+								a,
+								{distance: v}))
+					});
+		}
+	});
+var $author$project$Main2$setVelocity = F2(
+	function (v, m) {
+		var _v0 = m.problem;
+		switch (_v0.$) {
+			case 'GetDistance':
+				var a = _v0.a;
+				return _Utils_update(
+					m,
+					{
+						problem: $author$project$Main2$GetDistance(
+							_Utils_update(
+								a,
+								{vm: v}))
+					});
+			case 'GetAngle':
+				var a = _v0.a;
+				return _Utils_update(
+					m,
+					{
+						problem: $author$project$Main2$GetAngle(
+							_Utils_update(
+								a,
+								{vm: v}))
+					});
+			default:
+				var a = _v0.a;
+				return m;
+		}
+	});
+var $author$project$Main2$update = F2(
 	function (msg, mod) {
 		switch (msg.$) {
 			case 'UpdateHoopHeight':
@@ -5209,33 +5391,54 @@ var $author$project$Main$update = F2(
 					{startingHeight: h});
 			case 'UpdateVel':
 				var v = msg.a;
-				return _Utils_update(
-					mod,
-					{vm: v});
-			default:
+				return A2($author$project$Main2$setVelocity, v, mod);
+			case 'UpdateAngle':
 				var a = msg.a;
-				return _Utils_update(
-					mod,
-					{theta: a});
+				return A2($author$project$Main2$setAngle, a, mod);
+			case 'UpdateDistance':
+				var d = msg.a;
+				return A2($author$project$Main2$setDistance, d, mod);
+			default:
+				var p = msg.a;
+				return A2($author$project$Main2$changeProblem, p, mod);
 		}
 	});
-var $author$project$Main$SvgParams = F5(
+var $author$project$Main2$SvgParams = F5(
 	function (hoopHeight, startingHeight, velMagnitude, launchAngle, distance) {
 		return {distance: distance, hoopHeight: hoopHeight, launchAngle: launchAngle, startingHeight: startingHeight, velMagnitude: velMagnitude};
 	});
-var $author$project$Main$UpdateAngle = function (a) {
+var $author$project$Main2$UpdateAngle = function (a) {
 	return {$: 'UpdateAngle', a: a};
 };
-var $author$project$Main$UpdateHoopHeight = function (a) {
+var $author$project$Main2$UpdateDistance = function (a) {
+	return {$: 'UpdateDistance', a: a};
+};
+var $author$project$Main2$UpdateHoopHeight = function (a) {
 	return {$: 'UpdateHoopHeight', a: a};
 };
-var $author$project$Main$UpdateStartHeight = function (a) {
+var $author$project$Main2$UpdateProblem = function (a) {
+	return {$: 'UpdateProblem', a: a};
+};
+var $author$project$Main2$UpdateStartHeight = function (a) {
 	return {$: 'UpdateStartHeight', a: a};
 };
-var $author$project$Main$UpdateVel = function (a) {
+var $author$project$Main2$UpdateVel = function (a) {
 	return {$: 'UpdateVel', a: a};
 };
 var $elm$core$Basics$cos = _Basics_cos;
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main2$displayResult = function (r) {
+	return $elm$html$Html$text(
+		function () {
+			if (r.$ === 'Nothing') {
+				return 'NaN';
+			} else {
+				var rn = r.a;
+				return $elm$core$String$fromFloat(rn);
+			}
+		}());
+};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
 var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
@@ -5245,11 +5448,10 @@ var $elm$core$String$concat = function (strings) {
 var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
 var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
-var $elm$core$String$fromFloat = _String_fromNumber;
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
-var $author$project$Main$g = -9.81;
+var $author$project$Main2$g = -9.81;
 var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
 var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
 var $elm$core$Basics$min = F2(
@@ -5264,7 +5466,6 @@ var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
 var $elm$core$Basics$sin = _Basics_sin;
 var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$svg$Svg$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$svg$Svg$Attributes$textAnchor = _VirtualDom_attribute('text-anchor');
 var $elm$svg$Svg$text_ = $elm$svg$Svg$trustedNode('text');
@@ -5276,7 +5477,7 @@ var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
 var $elm$svg$Svg$Attributes$y = _VirtualDom_attribute('y');
 var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
 var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
-var $author$project$Main$drawSvgModel = function (msvgp) {
+var $author$project$Main2$drawSvgModel = function (msvgp) {
 	return A2(
 		$elm$svg$Svg$svg,
 		_List_fromArray(
@@ -5362,7 +5563,7 @@ var $author$project$Main$drawSvgModel = function (msvgp) {
 										function (xlocPix) {
 											var currentXpos = (bx - xlocPix) / scale;
 											var time = currentXpos / vx;
-											var cy = ((sp.startingHeight + (vy * time)) + ((0.5 * $author$project$Main$g) * A2($elm$core$Basics$pow, time, 2))) - subAmount;
+											var cy = ((sp.startingHeight + (vy * time)) + ((0.5 * $author$project$Main2$g) * A2($elm$core$Basics$pow, time, 2))) - subAmount;
 											var cyp = 600 - (cy * scale);
 											return $elm$core$String$fromFloat(xlocPix) + (',' + ($elm$core$String$fromFloat(cyp) + ' '));
 										},
@@ -5384,14 +5585,82 @@ var $author$project$Main$drawSvgModel = function (msvgp) {
 		}());
 };
 var $elm$core$Basics$sqrt = _Basics_sqrt;
-var $author$project$Main$getRange = F4(
+var $author$project$Main2$getRange = F4(
 	function (hh, y0, vx, vy) {
 		var time = (vy + $elm$core$Basics$sqrt(
-			A2($elm$core$Basics$pow, vy, 2) - (((4 * (1 / 2)) * $author$project$Main$g) * (y0 - hh)))) / (-$author$project$Main$g);
+			A2($elm$core$Basics$pow, vy, 2) - (((4 * (1 / 2)) * $author$project$Main2$g) * (y0 - hh)))) / (-$author$project$Main2$g);
 		return vx * time;
 	});
 var $elm$html$Html$hr = _VirtualDom_node('hr');
+var $elm$core$Basics$atan = _Basics_atan;
+var $author$project$Main2$initialAngle = F4(
+	function (hh, y0, v0, d) {
+		var dh = hh - y0;
+		var a = (((1 / 2) * $author$project$Main2$g) * A2($elm$core$Basics$pow, d, 2)) / A2($elm$core$Basics$pow, v0, 2);
+		return ($elm$core$Basics$atan(
+			(d + $elm$core$Basics$sqrt(
+				A2($elm$core$Basics$pow, d, 2) - ((4 * a) * (a - dh)))) / ((-2) * a)) * 180) / $elm$core$Basics$pi;
+	});
+var $elm$core$Basics$tan = _Basics_tan;
+var $author$project$Main2$initialVelocity = F4(
+	function (hh, y0, d, theta) {
+		return $elm$core$Basics$sqrt(
+			(((1 / 2) * $author$project$Main2$g) * A2($elm$core$Basics$pow, d, 2)) / (A2(
+				$elm$core$Basics$pow,
+				$elm$core$Basics$cos(theta),
+				2) * ((hh - y0) - ($elm$core$Basics$tan(theta) * d))));
+	});
 var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 'Nothing') {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return $elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
+var $elm$core$Maybe$map4 = F5(
+	function (func, ma, mb, mc, md) {
+		if (ma.$ === 'Nothing') {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				if (mc.$ === 'Nothing') {
+					return $elm$core$Maybe$Nothing;
+				} else {
+					var c = mc.a;
+					if (md.$ === 'Nothing') {
+						return $elm$core$Maybe$Nothing;
+					} else {
+						var d = md.a;
+						return $elm$core$Maybe$Just(
+							A4(func, a, b, c, d));
+					}
+				}
+			}
+		}
+	});
 var $elm$core$Maybe$map5 = F6(
 	function (func, ma, mb, mc, md, me) {
 		if (ma.$ === 'Nothing') {
@@ -5420,15 +5689,6 @@ var $elm$core$Maybe$map5 = F6(
 					}
 				}
 			}
-		}
-	});
-var $author$project$Main$mbind = F2(
-	function (ma, f) {
-		if (ma.$ === 'Nothing') {
-			return $elm$core$Maybe$Nothing;
-		} else {
-			var a = ma.a;
-			return f(a);
 		}
 	});
 var $elm$html$Html$Events$alwaysStop = function (x) {
@@ -5474,108 +5734,192 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$html$Html$option = _VirtualDom_node('option');
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Main2$problemOpt = function (s) {
+	return A2(
+		$elm$html$Html$option,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$value(s)
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(s)
+			]));
+};
+var $elm$html$Html$select = _VirtualDom_node('select');
 var $elm$core$String$toFloat = _String_toFloat;
-var $author$project$Main$view = function (_v0) {
+var $author$project$Main2$view = function (_v0) {
 	var hoopHeight = _v0.hoopHeight;
 	var startingHeight = _v0.startingHeight;
-	var vm = _v0.vm;
-	var theta = _v0.theta;
-	var r = A2(
-		$author$project$Main$mbind,
-		$elm$core$String$toFloat(hoopHeight),
-		function (hh) {
-			return A2(
-				$author$project$Main$mbind,
-				$elm$core$String$toFloat(startingHeight),
-				function (s) {
-					return A2(
-						$author$project$Main$mbind,
-						$elm$core$String$toFloat(vm),
-						function (v) {
-							return A2(
-								$author$project$Main$mbind,
-								$elm$core$String$toFloat(theta),
-								function (a) {
-									return $elm$core$Maybe$Just(
-										A4(
-											$author$project$Main$getRange,
-											hh,
-											s,
-											$elm$core$Basics$cos((a * $elm$core$Basics$pi) / 180) * v,
-											$elm$core$Basics$sin((a * $elm$core$Basics$pi) / 180) * v));
-								});
-						});
-				});
-		});
+	var problem = _v0.problem;
+	var startHeightInput = A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$placeholder('start height'),
+				$elm$html$Html$Events$onInput($author$project$Main2$UpdateStartHeight)
+			]),
+		_List_Nil);
+	var problemInput = A2(
+		$elm$html$Html$select,
+		_List_fromArray(
+			[
+				$elm$html$Html$Events$onInput($author$project$Main2$UpdateProblem)
+			]),
+		_List_fromArray(
+			[
+				$author$project$Main2$problemOpt('distance'),
+				$author$project$Main2$problemOpt('angle'),
+				$author$project$Main2$problemOpt('speed')
+			]));
+	var initvelInput = A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$placeholder('initial velocity'),
+				$elm$html$Html$Events$onInput($author$project$Main2$UpdateVel)
+			]),
+		_List_Nil);
+	var hoopInput = A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$placeholder('hoop height'),
+				$elm$html$Html$Events$onInput($author$project$Main2$UpdateHoopHeight)
+			]),
+		_List_Nil);
+	var distanceInput = A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$placeholder('distance'),
+				$elm$html$Html$Events$onInput($author$project$Main2$UpdateDistance)
+			]),
+		_List_Nil);
+	var angInput = A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$placeholder('angle'),
+				$elm$html$Html$Events$onInput($author$project$Main2$UpdateAngle)
+			]),
+		_List_Nil);
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
-		_List_fromArray(
-			[
-				$elm$html$Html$text(
-				function () {
-					if (r.$ === 'Nothing') {
-						return 'NaN';
-					} else {
-						var a = r.a;
-						return $elm$core$String$fromFloat(a);
-					}
-				}()),
-				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
-				A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$placeholder('hoop height'),
-						$elm$html$Html$Events$onInput($author$project$Main$UpdateHoopHeight)
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$placeholder('start height'),
-						$elm$html$Html$Events$onInput($author$project$Main$UpdateStartHeight)
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$placeholder('initial velocity'),
-						$elm$html$Html$Events$onInput($author$project$Main$UpdateVel)
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$placeholder('angle'),
-						$elm$html$Html$Events$onInput($author$project$Main$UpdateAngle)
-					]),
-				_List_Nil),
-				$author$project$Main$drawSvgModel(
-				A6(
-					$elm$core$Maybe$map5,
-					$author$project$Main$SvgParams,
-					$elm$core$String$toFloat(hoopHeight),
-					$elm$core$String$toFloat(startingHeight),
-					$elm$core$String$toFloat(vm),
-					$elm$core$String$toFloat(theta),
-					r))
-			]));
+		_Utils_ap(
+			_List_fromArray(
+				[problemInput]),
+			function () {
+				switch (problem.$) {
+					case 'GetDistance':
+						var vm = problem.a.vm;
+						var theta = problem.a.theta;
+						var v = $elm$core$String$toFloat(vm);
+						var sh = $elm$core$String$toFloat(startingHeight);
+						var hh = $elm$core$String$toFloat(hoopHeight);
+						var a = $elm$core$String$toFloat(theta);
+						var r = A5(
+							$elm$core$Maybe$map4,
+							$author$project$Main2$getRange,
+							hh,
+							sh,
+							A3(
+								$elm$core$Maybe$map2,
+								F2(
+									function (an, vmag) {
+										return $elm$core$Basics$cos((an * $elm$core$Basics$pi) / 180) * vmag;
+									}),
+								a,
+								v),
+							A3(
+								$elm$core$Maybe$map2,
+								F2(
+									function (an, vmag) {
+										return $elm$core$Basics$sin((an * $elm$core$Basics$pi) / 180) * vmag;
+									}),
+								a,
+								v));
+						return _List_fromArray(
+							[
+								$author$project$Main2$displayResult(r),
+								A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+								hoopInput,
+								startHeightInput,
+								initvelInput,
+								angInput,
+								$author$project$Main2$drawSvgModel(
+								A6($elm$core$Maybe$map5, $author$project$Main2$SvgParams, hh, sh, v, a, r))
+							]);
+					case 'GetAngle':
+						var distance = problem.a.distance;
+						var vm = problem.a.vm;
+						var v = $elm$core$String$toFloat(vm);
+						var sh = $elm$core$String$toFloat(startingHeight);
+						var r = $elm$core$String$toFloat(distance);
+						var hh = $elm$core$String$toFloat(hoopHeight);
+						var a = A5($elm$core$Maybe$map4, $author$project$Main2$initialAngle, hh, sh, v, r);
+						return _List_fromArray(
+							[
+								$author$project$Main2$displayResult(a),
+								A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+								hoopInput,
+								startHeightInput,
+								initvelInput,
+								distanceInput,
+								$author$project$Main2$drawSvgModel(
+								A6($elm$core$Maybe$map5, $author$project$Main2$SvgParams, hh, sh, v, a, r))
+							]);
+					default:
+						var distance = problem.a.distance;
+						var theta = problem.a.theta;
+						var sh = $elm$core$String$toFloat(startingHeight);
+						var r = $elm$core$String$toFloat(distance);
+						var hh = $elm$core$String$toFloat(hoopHeight);
+						var a = $elm$core$String$toFloat(theta);
+						var v = A5(
+							$elm$core$Maybe$map4,
+							$author$project$Main2$initialVelocity,
+							hh,
+							sh,
+							r,
+							A2(
+								$elm$core$Maybe$map,
+								function (an) {
+									return (an * $elm$core$Basics$pi) / 180;
+								},
+								a));
+						return _List_fromArray(
+							[
+								$author$project$Main2$displayResult(v),
+								A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+								hoopInput,
+								startHeightInput,
+								angInput,
+								distanceInput,
+								$author$project$Main2$drawSvgModel(
+								A6($elm$core$Maybe$map5, $author$project$Main2$SvgParams, hh, sh, v, a, r))
+							]);
+				}
+			}()));
 };
-var $author$project$Main$main = $elm$browser$Browser$sandbox(
+var $author$project$Main2$main = $elm$browser$Browser$sandbox(
 	{
-		init: {hoopHeight: '1.915', startingHeight: '1.61', theta: '30', vm: '3.3931'},
-		update: $author$project$Main$update,
-		view: $author$project$Main$view
+		init: {
+			hoopHeight: '1.915',
+			problem: $author$project$Main2$GetDistance(
+				{theta: '59', vm: '6'}),
+			startingHeight: '1.61'
+		},
+		update: $author$project$Main2$update,
+		view: $author$project$Main2$view
 	});
-_Platform_export({'Main':{'init':$author$project$Main$main(
+_Platform_export({'Main2':{'init':$author$project$Main2$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
 
-  var app = Elm.Main.init({ node: document.getElementById("elm") });
+  var app = Elm.Main2.init({ node: document.getElementById("elm") });
 }
 catch (e)
 {
